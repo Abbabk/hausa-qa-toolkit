@@ -24,7 +24,8 @@ def _issue(segment: Segment, code: str, message: str, severity: Severity) -> Iss
 def check_orthography(segment: Segment) -> list[Issue]:
     """Flag high-confidence text damage without trying to judge fluent Hausa."""
 
-    target = unicodedata.normalize("NFC", segment.target)
+    original_target = segment.target
+    target = unicodedata.normalize("NFC", original_target)
     source = unicodedata.normalize("NFC", segment.source)
     issues: list[Issue] = []
 
@@ -96,7 +97,7 @@ def check_orthography(segment: Segment) -> list[Issue]:
                 )
             )
 
-    if any(unicodedata.combining(char) for char in target):
+    if any(unicodedata.combining(char) for char in original_target):
         issues.append(
             _issue(
                 segment,

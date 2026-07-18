@@ -69,7 +69,7 @@ def _delimiter_errors(text: str) -> list[str]:
         errors.append("unbalanced double-brace placeholder")
     if scrubbed.count("{") != scrubbed.count("}"):
         errors.append("unbalanced brace placeholder")
-    for fragment in _PRINTF_FRAGMENT_RE.findall(scrubbed):
+    for fragment in _PRINTF_FRAGMENT_RE.findall(scrubbed.replace("%%", "")):
         errors.append(f"malformed printf fragment {fragment!r}")
     errors.extend(_html_structure_errors(text))
     return errors
