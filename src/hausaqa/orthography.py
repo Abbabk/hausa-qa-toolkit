@@ -29,6 +29,11 @@ def check_orthography(segment: Segment) -> list[Issue]:
     source = unicodedata.normalize("NFC", segment.source)
     issues: list[Issue] = []
 
+    if not target.strip():
+        issues.append(
+            _issue(segment, "empty_target", "Target is empty or whitespace only", Severity.CRITICAL)
+        )
+
     if _DOUBLE_SPACE.search(target):
         issues.append(
             _issue(segment, "double_space", "Target contains repeated spaces", Severity.MINOR)

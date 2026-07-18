@@ -50,6 +50,40 @@ def test_cli_unsupported_extension_exits_two(tmp_path, capsys):
     assert "Unsupported input extension" in capsys.readouterr().err
 
 
+def test_cli_empty_file_exits_two(tmp_path, capsys):
+    path = tmp_path / "empty.tsv"
+    path.write_text("", encoding="utf-8")
+    assert main(["check", str(path)]) == EXIT_USAGE_ERROR
+    assert "no bilingual segments" in capsys.readouterr().err
+
+
+def test_cli_empty_target_is_a_critical_failure(tmp_path, capsys):
+    path = tmp_path / "empty-target.tsv"
+    path.write_text("source\ttarget\nHello\t\n", encoding="utf-8")
+    assert main(["check", str(path)]) == EXIT_QA_FAILURE
+    assert "orthography/empty_target" in capsys.readouterr().out
+
+
+def test_cli_malformed_xliff_exits_two_without_traceback(tmp_path, capsys):
+    path = tmp_path / "bad.xlf"
+    path.write_text('<xliff version="1.2"><broken>', encoding="utf-8")
+    assert main(["check", str(path)]) == EXIT_USAGE_ERROR
+    captured = capsys.readouterr()
+    assert "Malformed XLIFF XML" in captured.err
+    assert "Traceback" not in captured.err
+
+
+def test_cli_malformed_json_glossary_exits_two_without_traceback(tmp_path, capsys):
+    pairs = tmp_path / "pairs.tsv"
+    pairs.write_text("source\ttarget\nHello\tSannu\n", encoding="utf-8")
+    glossary = tmp_path / "terms.json"
+    glossary.write_text("[1]", encoding="utf-8")
+    assert main(["check", str(pairs), "--glossary", str(glossary)]) == EXIT_USAGE_ERROR
+    captured = capsys.readouterr()
+    assert "entry 1 must be an object" in captured.err
+    assert "Traceback" not in captured.err
+
+
 def test_cli_glossary_adds_terminology_issue(tmp_path, capsys):
     pairs = tmp_path / "pairs.tsv"
     pairs.write_text("source\ttarget\nOpen account\tBuɗe lissafi\n", encoding="utf-8")

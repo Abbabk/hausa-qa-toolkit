@@ -1,3 +1,5 @@
+import pytest
+
 from hausaqa.engine import check_segments
 from hausaqa.models import Segment
 from hausaqa.terminology import GlossaryEntry
@@ -21,3 +23,8 @@ def test_engine_counts_generator_segments_once():
 def test_engine_without_glossary_skips_terminology():
     report = check_segments([Segment("account", "lissafi", "s")])
     assert all(issue.category != "terminology" for issue in report.issues)
+
+
+def test_engine_rejects_non_segment_items_at_public_boundary():
+    with pytest.raises(TypeError, match="Segment instances"):
+        check_segments([object()])  # type: ignore[list-item]

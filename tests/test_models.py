@@ -59,3 +59,13 @@ def test_segment_is_immutable():
     segment = Segment("a", "b", "r")
     with pytest.raises(AttributeError):
         segment.source = "changed"  # type: ignore[misc]
+
+
+def test_segment_rejects_non_string_fields_immediately():
+    with pytest.raises(TypeError, match="source must be a string"):
+        Segment(1, "b", "r")  # type: ignore[arg-type]
+
+
+def test_segment_rejects_empty_reference():
+    with pytest.raises(ValueError, match="reference must not be empty"):
+        Segment("a", "b", "  ")

@@ -54,7 +54,7 @@ hausaqa check pairs.json --format json
 
 ### CSV and TSV
 
-Use `source` and `target` columns. An optional `reference` column supplies stable segment identifiers. Without a header, the first two columns are treated as source and target.
+Use `source` and `target` columns. An optional non-empty `reference` column supplies stable segment identifiers. Without a header, the first two columns are treated as source and target. A file with no bilingual rows is rejected, and an empty or whitespace-only target is reported as a critical QA finding.
 
 ### JSON
 
@@ -66,7 +66,7 @@ Use an object keyed by segment identifier:
 }
 ```
 
-A list of objects with `source`, `target`, and optional `reference` fields is also accepted.
+A list of objects with string `source` and `target` fields is also accepted. An explicit `reference` must be a non-empty string. UTF-8 JSON with or without a byte-order mark is accepted.
 
 ### XLIFF
 
@@ -80,7 +80,7 @@ TSV columns are source term, approved Hausa term, and optional pipe-separated fo
 account\tasusu\tlissafi|akwati
 ```
 
-JSON glossaries are lists of objects with `source_term`, `approved_term`, and optional `forbidden_variants`.
+JSON glossaries are lists of objects with non-empty string `source_term` and `approved_term` values. The optional `forbidden_variants` value must be a list of non-empty strings. Glossary files must use a `.tsv` or `.json` extension. UTF-8 JSON with or without a byte-order mark is accepted.
 
 ## Exit codes
 

@@ -64,3 +64,10 @@ def test_unrelated_translation_does_not_guess_hooked_letter_error():
 
 def test_decomposed_combining_mark_is_flagged():
     assert "combining_mark" in codes("A", "e\u0301")
+
+
+@pytest.mark.parametrize("target", ["", " \t "])
+def test_empty_or_whitespace_target_is_critical(target):
+    issues = check_orthography(Segment("Hello", target, "s"))
+    empty = next(issue for issue in issues if issue.code == "empty_target")
+    assert empty.severity.name == "CRITICAL"

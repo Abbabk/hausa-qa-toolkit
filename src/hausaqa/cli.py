@@ -47,6 +47,8 @@ def run_check(args: argparse.Namespace) -> int:
     if not args.file.is_file():
         raise ValueError(f"Input file does not exist: {args.file}")
     segments = _load_segments(args.file)
+    if not segments:
+        raise ValueError(f"Input contains no bilingual segments: {args.file}")
     glossary = load_glossary(args.glossary) if args.glossary else None
     report = check_segments(segments, glossary)
     output = report.to_json() if args.output_format == "json" else report.to_text()

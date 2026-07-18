@@ -39,7 +39,10 @@ def _first_child(element: ET.Element, name: str) -> ET.Element | None:
 
 def read_xliff(path: str | Path) -> list[Segment]:
     file_path = Path(path)
-    root = ET.parse(file_path).getroot()
+    try:
+        root = ET.parse(file_path).getroot()
+    except ET.ParseError as exc:
+        raise ValueError(f"Malformed XLIFF XML in {file_path.name}: {exc}") from exc
     version = root.attrib.get("version", "")
     segments: list[Segment] = []
 

@@ -40,6 +40,12 @@ def test_read_json_object_pairs(tmp_path):
     assert read_json_pairs(path)[0].reference == "welcome"
 
 
+def test_read_json_accepts_utf8_bom(tmp_path):
+    path = tmp_path / "pairs.json"
+    path.write_text('\ufeff{"welcome": {"source": "Hello", "target": "Sannu"}}', encoding="utf-8")
+    assert read_json_pairs(path)[0].target == "Sannu"
+
+
 def test_read_json_list_pairs_with_explicit_reference(tmp_path):
     path = tmp_path / "pairs.json"
     path.write_text(json.dumps([{"source": "Hello", "target": "Sannu", "reference": "x"}]))
@@ -50,6 +56,17 @@ def test_read_json_rejects_string_values(tmp_path):
     path = tmp_path / "pairs.json"
     path.write_text(json.dumps({"welcome": "Sannu"}))
     with pytest.raises(ValueError, match="must contain source and target"):
+        read_json_pairs(path)
+
+
+@pytest.mark.parametrize("reference", [None, 1, ""])
+def test_read_json_rejects_invalid_explicit_reference(tmp_path, reference):
+    path = tmp_path / "pairs.json"
+    path.write_text(
+        json.dumps([{"source": "Hello", "target": "Sannu", "reference": reference}]),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="reference must be a non-empty string"):
         read_json_pairs(path)
 
 
@@ -93,4 +110,11 @@ def test_read_xliff_rejects_unknown_version(tmp_path):
     path = tmp_path / "sample.xlf"
     path.write_text('<xliff version="3.0"/>', encoding="utf-8")
     with pytest.raises(ValueError, match="Unsupported"):
+        read_xliff(path)
+
+
+def test_read_xliff_wraps_malformed_xml_as_value_error(tmp_path):
+    path = tmp_path / "bad.xlf"
+    path.write_text('<xliff version="1.2"><broken>', encoding="utf-8")
+    with pytest.raises(ValueError, match="Malformed XLIFF XML"):
         read_xliff(path)

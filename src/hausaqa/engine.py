@@ -15,6 +15,8 @@ def check_segments(
 ) -> Report:
     report = Report()
     for segment in segments:
+        if not isinstance(segment, Segment):
+            raise TypeError("segments must contain Segment instances")
         report.segments_checked += 1
         report.extend(check_placeholders(segment))
         report.extend(check_orthography(segment))

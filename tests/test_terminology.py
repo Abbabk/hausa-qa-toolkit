@@ -69,10 +69,53 @@ def test_load_json_glossary(tmp_path):
     assert load_glossary(path) == [GlossaryEntry("page", "shafi", ("takarda",))]
 
 
+def test_load_json_glossary_accepts_utf8_bom(tmp_path):
+    path = tmp_path / "terms.json"
+    path.write_text(
+        '\ufeff[{"source_term": "page", "approved_term": "shafi"}]', encoding="utf-8"
+    )
+    assert load_glossary(path) == [GlossaryEntry("page", "shafi")]
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        "[1]",
+        '[{"source_term": "", "approved_term": "asusu"}]',
+        '[{"source_term": "account", "approved_term": "asusu", "forbidden_variants": "bad"}]',
+    ],
+)
+def test_json_glossary_rejects_malformed_entries(tmp_path, payload):
+    path = tmp_path / "bad.json"
+    path.write_text(payload, encoding="utf-8")
+    with pytest.raises(ValueError):
+        load_glossary(path)
+
+
+def test_glossary_rejects_unsupported_extension(tmp_path):
+    path = tmp_path / "terms.txt"
+    path.write_text("account\tasusu\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="Unsupported glossary extension"):
+        load_glossary(path)
+
+
+def test_glossary_matching_normalizes_unicode():
+    entry = GlossaryEntry("café", "ƙofa")
+    assert check_terminology(Segment("cafe\u0301", "ƙofa", "r"), [entry]) == []
+
+
 def test_invalid_tsv_glossary_reports_line(tmp_path):
     path = tmp_path / "bad.tsv"
     path.write_text("only-one-column\n", encoding="utf-8")
     with pytest.raises(ValueError, match="line 1"):
+        load_glossary(path)
+
+
+@pytest.mark.parametrize("row", ["\tasusu\n", "account\t\n", "a\tb\tc\td\n"])
+def test_tsv_glossary_rejects_empty_required_or_extra_columns(tmp_path, row):
+    path = tmp_path / "bad.tsv"
+    path.write_text(row, encoding="utf-8")
+    with pytest.raises(ValueError, match="Glossary line 1"):
         load_glossary(path)
 
 

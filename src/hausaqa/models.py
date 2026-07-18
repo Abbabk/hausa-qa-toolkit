@@ -29,6 +29,13 @@ class Segment:
     target: str
     reference: str
 
+    def __post_init__(self) -> None:
+        for field_name in ("source", "target", "reference"):
+            if not isinstance(getattr(self, field_name), str):
+                raise TypeError(f"Segment {field_name} must be a string")
+        if not self.reference.strip():
+            raise ValueError("Segment reference must not be empty")
+
 
 @dataclass(frozen=True, slots=True)
 class Issue:

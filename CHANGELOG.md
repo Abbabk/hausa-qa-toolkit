@@ -2,6 +2,16 @@
 
 All notable changes follow semantic versioning.
 
+## [Unreleased]
+
+### Fixed
+
+- Reject empty bilingual inputs and report empty targets as critical findings.
+- Return controlled CLI usage errors for malformed XLIFF and glossary data.
+- Validate public segment values, JSON references, and glossary fields at their boundaries.
+- Accept UTF-8 byte-order marks in JSON and normalize Unicode during glossary matching.
+- Document the validated input and glossary behavior.
+
 ## [0.1.0] - 2026-07-18
 
 ### Added

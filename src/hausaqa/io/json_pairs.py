@@ -10,7 +10,7 @@ from ..models import Segment
 
 def read_json_pairs(path: str | Path) -> list[Segment]:
     file_path = Path(path)
-    payload = json.loads(file_path.read_text(encoding="utf-8"))
+    payload = json.loads(file_path.read_text(encoding="utf-8-sig"))
     segments: list[Segment] = []
 
     if isinstance(payload, list):
@@ -27,6 +27,12 @@ def read_json_pairs(path: str | Path) -> list[Segment]:
         target = value["target"]
         if not isinstance(source, str) or not isinstance(target, str):
             raise ValueError(f"JSON entry {key!r} source and target must be strings")
-        reference = str(value.get("reference", key))
+        if "reference" in value:
+            reference_value = value["reference"]
+            if not isinstance(reference_value, str) or not reference_value.strip():
+                raise ValueError(f"JSON entry {key!r} reference must be a non-empty string")
+            reference = reference_value
+        else:
+            reference = str(key)
         segments.append(Segment(source, target, reference))
     return segments
