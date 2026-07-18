@@ -2,7 +2,7 @@
 
 HausaQA is a clean-room, MIT-licensed localization QA toolkit for Hausa bilingual files. It finds placeholder and inline-tag damage, conservative orthography problems, and terminology drift, then emits MQM-style findings as text or JSON.
 
-Version 0.1.0 is local and installable. It has not been published.
+HausaQA is authored by Abba Bello Kanwa of [Hausa AI Studio](https://hausaai.studio).
 
 ## Features
 
@@ -26,6 +26,16 @@ python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -e .
 hausaqa check fixtures/cli-demo.tsv --glossary fixtures/glossary.tsv --format text
+```
+
+Real output from the included fixture:
+
+```text
+HausaQA 0.1.0: 2 segment(s), 3 issue(s)
+Summary: critical=1 major=1 minor=1
+[critical] demo-1 placeholder/missing: Missing 1 occurrence(s) of '{name}'
+[minor] demo-2 orthography/double_space: Target contains repeated spaces
+[major] demo-2 terminology/approved_term_missing: Expected approved term 'asusu' for 'account'
 ```
 
 A critical finding makes `hausaqa check` exit with status 1 by default. To fail on major findings too:
