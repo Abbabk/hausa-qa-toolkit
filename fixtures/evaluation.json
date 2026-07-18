@@ -1,0 +1,74 @@
+[
+  {
+    "reference": "eval-001",
+    "source": "Welcome, {name}!",
+    "target": "Barka da zuwa!",
+    "expected_categories": ["placeholder"]
+  },
+  {
+    "reference": "eval-002",
+    "source": "Total: %1$s",
+    "target": "Jimilla: %1$d",
+    "expected_categories": ["placeholder"]
+  },
+  {
+    "reference": "eval-003",
+    "source": "Read <strong>this</strong> now.",
+    "target": "Karanta <strong>wannan</em> yanzu.",
+    "expected_categories": ["placeholder"]
+  },
+  {
+    "reference": "eval-004",
+    "source": "Simple sentence",
+    "target": "Wannan  jimla ce.",
+    "expected_categories": ["orthography"]
+  },
+  {
+    "reference": "eval-005",
+    "source": "Simple sentence",
+    "target": "Wannan jimla ce. wata kuma.",
+    "expected_categories": ["orthography"]
+  },
+  {
+    "reference": "eval-006",
+    "source": "Ƙofa",
+    "target": "Kofa",
+    "expected_categories": ["orthography"]
+  },
+  {
+    "reference": "eval-007",
+    "source": "Open the account page",
+    "target": "Buɗe shafin asusu",
+    "expected_categories": ["terminology"]
+  },
+  {
+    "reference": "eval-008",
+    "source": "Close the account page",
+    "target": "Rufe shafin lissafi",
+    "expected_categories": ["terminology"]
+  },
+  {
+    "reference": "eval-009",
+    "source": "Hello, {{person}}!",
+    "target": "Sannu, {{person}}!",
+    "expected_categories": []
+  },
+  {
+    "reference": "eval-010",
+    "source": "A calm day.",
+    "target": "Yau rana ce mai natsuwa.",
+    "expected_categories": []
+  },
+  {
+    "reference": "eval-011",
+    "source": "Your account is ready",
+    "target": "Asusunka ya shirya",
+    "expected_categories": []
+  },
+  {
+    "reference": "eval-012",
+    "source": "Save [1]three[/1] items",
+    "target": "Ajiye [1]abubuwa uku[/1]",
+    "expected_categories": []
+  }
+]
