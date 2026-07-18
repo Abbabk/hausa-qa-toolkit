@@ -58,7 +58,7 @@ def test_read_xliff_12(tmp_path):
     path.write_text(
         '<?xml version="1.0"?><xliff version="1.2"><file><body>'
         '<trans-unit id="u1"><source>Hello</source><target>Sannu</target></trans-unit>'
-        '</body></file></xliff>',
+        "</body></file></xliff>",
         encoding="utf-8",
     )
     segment = read_xliff(path)[0]
@@ -70,7 +70,7 @@ def test_read_xliff_20_namespaced(tmp_path):
     path.write_text(
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0">'
         '<file id="f"><unit id="u"><segment id="s"><source>Hello</source>'
-        '<target>Sannu</target></segment></unit></file></xliff>',
+        "<target>Sannu</target></segment></unit></file></xliff>",
         encoding="utf-8",
     )
     assert read_xliff(path)[0].reference == "u:s"
@@ -81,7 +81,7 @@ def test_read_xliff_preserves_inline_element_shape(tmp_path):
     path.write_text(
         '<xliff version="1.2"><file><body><trans-unit id="1">'
         '<source>Hi <ph id="1"/>there</source><target>Sannu <ph id="1"/>can</target>'
-        '</trans-unit></body></file></xliff>',
+        "</trans-unit></body></file></xliff>",
         encoding="utf-8",
     )
     segment = read_xliff(path)[0]

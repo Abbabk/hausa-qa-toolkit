@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass, field
 from enum import IntEnum
-from typing import Iterable
 
 
 class Severity(IntEnum):
@@ -16,7 +16,7 @@ class Severity(IntEnum):
     CRITICAL = 3
 
     @classmethod
-    def parse(cls, value: str) -> "Severity":
+    def parse(cls, value: str) -> Severity:
         try:
             return cls[value.upper()]
         except KeyError as exc:

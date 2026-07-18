@@ -7,7 +7,6 @@ import pytest
 from hausaqa.models import Segment
 from hausaqa.terminology import GlossaryEntry, check_terminology, load_glossary
 
-
 ENTRY = GlossaryEntry("account", "asusu", ("lissafi", "akwati"))
 
 

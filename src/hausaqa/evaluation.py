@@ -18,9 +18,7 @@ def evaluate_fixture(
     fixture_path: str | Path, glossary: list[GlossaryEntry] | None = None
 ) -> dict[str, Any]:
     records = json.loads(Path(fixture_path).read_text(encoding="utf-8"))
-    counts: dict[str, dict[str, int]] = {
-        category: defaultdict(int) for category in CATEGORIES
-    }
+    counts: dict[str, dict[str, int]] = {category: defaultdict(int) for category in CATEGORIES}
 
     for record in records:
         segment = Segment(record["source"], record["target"], record["reference"])

@@ -140,18 +140,15 @@ def check_placeholders(segment: Segment) -> list[Issue]:
     for token in source_tokens:
         identifier = _placeholder_identifier(token.raw)
         if token.raw not in target_values and identifier and identifier in target_lower:
-            if not any(
-                candidate.raw == token.raw for candidate in target_tokens
-            ):
-                issues.append(
-                    Issue(
-                        "placeholder",
-                        "corrupted",
-                        f"Identifier {identifier!r} remains but its placeholder delimiters changed",
-                        Severity.CRITICAL,
-                        segment.reference,
-                    )
+            issues.append(
+                Issue(
+                    "placeholder",
+                    "corrupted",
+                    f"Identifier {identifier!r} remains but its placeholder delimiters changed",
+                    Severity.CRITICAL,
+                    segment.reference,
                 )
+            )
     return _deduplicate(issues)
 
 

@@ -30,7 +30,9 @@ def check_orthography(segment: Segment) -> list[Issue]:
     issues: list[Issue] = []
 
     if _DOUBLE_SPACE.search(target):
-        issues.append(_issue(segment, "double_space", "Target contains repeated spaces", Severity.MINOR))
+        issues.append(
+            _issue(segment, "double_space", "Target contains repeated spaces", Severity.MINOR)
+        )
 
     if _ASCII_APOSTROPHE_Y.search(target):
         issues.append(

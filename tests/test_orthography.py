@@ -12,9 +12,7 @@ def codes(source: str, target: str) -> list[str]:
 
 def test_double_spaces_are_minor():
     issues = check_orthography(Segment("A", "Kalma  biyu", "s"))
-    assert [(issue.code, issue.severity.name) for issue in issues] == [
-        ("double_space", "MINOR")
-    ]
+    assert [(issue.code, issue.severity.name) for issue in issues] == [("double_space", "MINOR")]
 
 
 @pytest.mark.parametrize("mark", ["'", "’"])

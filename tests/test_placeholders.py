@@ -28,9 +28,7 @@ def codes(source: str, target: str) -> list[str]:
 
 def test_missing_placeholder_is_critical():
     issues = check_placeholders(Segment("Hi {name}", "Sannu", "s1"))
-    assert [(issue.code, issue.severity.name) for issue in issues] == [
-        ("missing", "CRITICAL")
-    ]
+    assert [(issue.code, issue.severity.name) for issue in issues] == [("missing", "CRITICAL")]
 
 
 def test_extra_placeholder_is_detected():

@@ -37,7 +37,9 @@ def read_delimited(path: str | Path) -> list[Segment]:
             raise ValueError(f"{file_path.name}:{line_number} needs source and target columns")
         reference = (
             row[reference_index].strip()
-            if reference_index is not None and len(row) > reference_index and row[reference_index].strip()
+            if reference_index is not None
+            and len(row) > reference_index
+            and row[reference_index].strip()
             else f"{file_path.name}:{line_number}"
         )
         segments.append(Segment(row[source_index], row[target_index], reference))

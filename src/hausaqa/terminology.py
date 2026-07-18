@@ -46,7 +46,11 @@ def load_glossary(path: str | Path) -> list[GlossaryEntry]:
         columns = line.split("\t")
         if len(columns) < 2:
             raise ValueError(f"Glossary line {number} needs at least two TSV columns")
-        forbidden = tuple(value.strip() for value in columns[2].split("|") if value.strip()) if len(columns) > 2 else ()
+        forbidden = (
+            tuple(value.strip() for value in columns[2].split("|") if value.strip())
+            if len(columns) > 2
+            else ()
+        )
         entries.append(GlossaryEntry(columns[0].strip(), columns[1].strip(), forbidden))
     return entries
 
